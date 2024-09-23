@@ -1,4 +1,4 @@
-\degrees\large\
-\degrees\small\
-degrees/__pycache__
+degrees/large/
+degrees/small/
+./degrees/__pycache__
 README.md
