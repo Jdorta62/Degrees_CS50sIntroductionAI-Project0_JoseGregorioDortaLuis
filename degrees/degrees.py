@@ -68,7 +68,6 @@ def main():
     target = person_id_for_name(input("Name: "))
     if target is None:
         sys.exit("Person not found.")
-
     path = shortest_path(source, target)
 
     if path is None:
@@ -91,9 +90,32 @@ def shortest_path(source, target):
 
     If no possible path, returns None.
     """
+    frontier = QueueFrontier()
+    initial_node = Node(state=source, parent=None, action=None)
+    frontier.add(initial_node)
+    visited = set()
+    goal_node = None
+    while not frontier.empty() and goal_node is None:
+        curren_node = frontier.remove()
+        if curren_node.state == target:
+            goal_node = curren_node
+            break
+        visited.add(curren_node.state)
+        neighbors = neighbors_for_person(curren_node.state)
+        for movie_id, person_id in neighbors:
+            if person_id not in visited:
+                new_node = Node(person_id, curren_node, movie_id)
+                frontier.add(new_node)
 
-    # TODO
-    raise NotImplementedError
+    if goal_node is not None:
+        path = []
+        while goal_node.parent is not None:
+            path.append((goal_node.action, goal_node.state))
+            goal_node = goal_node.parent
+        path.reverse()
+        return path
+            
+    return None
 
 
 def person_id_for_name(name):
