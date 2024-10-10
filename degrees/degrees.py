@@ -103,6 +103,9 @@ def shortest_path(source, target):
         visited.add(curren_node.state)
         neighbors = neighbors_for_person(curren_node.state)
         for movie_id, person_id in neighbors:
+            if person_id == target:
+                goal_node = Node(person_id, curren_node, movie_id)
+                break
             if person_id not in visited:
                 new_node = Node(person_id, curren_node, movie_id)
                 frontier.add(new_node)
